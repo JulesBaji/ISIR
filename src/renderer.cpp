@@ -2,6 +2,7 @@
 #include "integrators/ray_cast_integrator.hpp"
 #include "utils/console_progress_bar.hpp"
 #include "utils/random.hpp"
+#include <glm/gtc/random.hpp>
 
 namespace RT_ISICG
 {
@@ -46,10 +47,16 @@ namespace RT_ISICG
 		{
 			for ( int i = 0; i < width; i++ )
 			{
-				float i_normalized = (i + 0.5f) / (float)( width - 1 );
-				float j_normalized = (j + 0.5f) / (float)( height - 1 );
-				Ray ray = p_camera->generateRay( i_normalized, j_normalized );
-				p_texture.setPixel( i, j, _integrator->Li(p_scene, ray, 0.f, 100.f) );
+				Vec3f meanColor = VEC3F_ZERO;
+				for (int k = 0; k < _nbPixelSamples; k++)
+				{
+					float i_normalized = ( i + glm::linearRand( 0.f, 1.0f ) ) / (float)( width - 1 );
+					float j_normalized = ( j + glm::linearRand( 0.f, 1.0f ) ) / (float)( height - 1 );
+					Ray	  ray		   = p_camera->generateRay( i_normalized, j_normalized );
+					meanColor += _integrator->Li( p_scene, ray, 0.f, 100.f );
+				}			
+				meanColor /= _nbPixelSamples;
+				p_texture.setPixel( i, j, meanColor );
 			}
 			progressBar.next();
 		}
