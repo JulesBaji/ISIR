@@ -104,10 +104,10 @@
     <ClCompile Include="src\objects\implicit_surface.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\plane.cpp">
+    <ClCompile Include="src\geometry\plane_geometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\plane.hpp">
+    <ClCompile Include="src\objects\plane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,9 +154,6 @@
     <ClInclude Include="src\utils\console_progress_bar.hpp">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry\plane_geometry.cpp">
-      <Filter>Header Files\geometry</Filter>
-    </ClInclude>
     <ClInclude Include="src\geometry\sphere_geometry.hpp">
       <Filter>Header Files\geometry</Filter>
     </ClInclude>
@@ -196,10 +193,13 @@
     <ClInclude Include="src\objects\implicit_surface.hpp">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\geometry\base_geometry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\geometry\plane_geometry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry\base_geometry.hpp">
+    <ClInclude Include="src\objects\plane.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
