@@ -10,7 +10,10 @@ namespace RT_ISICG
 	{
 	  public:
 
-		PointLight() = default;
+		PointLight( const Vec3f & p_color, const float p_power = 1.f, const std::string & p_name, const Vec3f & p_position ) : 
+			BaseLight( _color, _power ), _name( p_name ), _position( p_position )
+		{
+		}
 
 		virtual ~PointLight() = default;
 
@@ -21,6 +24,7 @@ namespace RT_ISICG
 	  protected:
 		// TODO: give a name, like objects and materials
 		Vec3f _position = VEC3F_ZERO;
+		std::string _name;
 	};
 } // namespace RT_ISICG
 

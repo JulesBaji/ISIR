@@ -1,4 +1,5 @@
 #include "direct_lightning_integrator.hpp"
+#include "lights/point_light.hpp"
 
 namespace RT_ISICG
 {
@@ -11,8 +12,18 @@ namespace RT_ISICG
 		if ( p_scene.intersect( p_ray, p_tMin, p_tMax, hitRecord ) )
 		{
 			float cosTheta = glm::max( glm::dot( hitRecord._normal, -p_ray.getDirection() ), 0.f );
-			return hitRecord._object->getMaterial()->getFlatColor() * cosTheta;
+			LightList light_list;
+			PointLight p = PointLight();
+			/*LightSample lightSample = LightSample(p_ray.getDirection(),  )
+			Li += hitRecord._object->getMaterial()->getFlatColor() * lightSample._radiance * cosTheta;*/
+			return 
 		}
 		else { return _backgroundColor; }
 	}
+
+	Vec3f DirectLightingIntegrator::_directLighting()
+	{
+
+	}
+
 } // namespace RT_ISICG

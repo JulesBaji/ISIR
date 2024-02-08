@@ -17,11 +17,8 @@ namespace RT_ISICG
 		// Return incoming luminance.
 		Vec3f Li( const Scene & p_scene, const Ray & p_ray, const float p_tMin, const float p_tMax ) const override;
 
-		private:
-			Vec3f _directLighting() 
-			{ 
-				//Li += mtl->getColor() * lightSample._radiance * cosTheta;
-			}
+	  private:
+		Vec3f _directLighting();
 	};
 
 } // namespace RT_ISICG
