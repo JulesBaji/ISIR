@@ -1,5 +1,6 @@
 #include "renderer.hpp"
 #include "integrators/ray_cast_integrator.hpp"
+#include "integrators/direct_lightning_integrator.hpp"
 #include "utils/console_progress_bar.hpp"
 #include "utils/random.hpp"
 #include <glm/gtc/random.hpp>
@@ -15,9 +16,12 @@ namespace RT_ISICG
 		switch ( p_integratorType )
 		{
 		case IntegratorType::RAY_CAST:
+			_integrator = new RayCastIntegrator(); 
+			break;
+		case IntegratorType::DIRECT_LIGHTING:
 		default:
 		{
-			_integrator = new RayCastIntegrator();
+			_integrator = new DirectLightingIntegrator();
 			break;
 		}
 		}
@@ -56,7 +60,7 @@ namespace RT_ISICG
 					meanColor += _integrator->Li( p_scene, ray, 0.f, 100.f );
 				}			
 				meanColor /= _nbPixelSamples;
-				p_texture.setPixel( i, j, meanColor );
+				p_texture.setPixel( i, j, glm::clamp(meanColor, 0.f, 1.f) );
 			}
 			progressBar.next();
 		}

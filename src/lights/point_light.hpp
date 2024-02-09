@@ -10,8 +10,8 @@ namespace RT_ISICG
 	{
 	  public:
 
-		PointLight( const Vec3f & p_color, const float p_power = 1.f, const std::string & p_name, const Vec3f & p_position ) : 
-			BaseLight( _color, _power ), _name( p_name ), _position( p_position )
+		PointLight( const Vec3f & p_color, const float p_power, const std::string & p_name, const Vec3f & p_position ) : 
+			BaseLight( p_color, p_power ), _name( p_name ), _position( p_position )
 		{
 		}
 
@@ -19,7 +19,7 @@ namespace RT_ISICG
 
 		inline const Vec3f & getPosition() const { return _position; }
 
-		LightSample sample( const Vec3f & p_point );
+		virtual LightSample sample( const Vec3f & p_point ) const override;
 
 	  protected:
 		// TODO: give a name, like objects and materials
