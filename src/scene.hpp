@@ -43,10 +43,14 @@ namespace RT_ISICG
 
 		void _attachMaterialToObject( const std::string & p_materialName, const std::string & p_objectName );
 
+		void _init1();
+		void _init2();
+
 	  private:
 		ObjectMap	_objectMap;
 		MaterialMap _materialMap;
 		LightList	_lightList;
+		int			sceneNumber = 2;
 	};
 } // namespace RT_ISICG
 
