@@ -3,6 +3,7 @@
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
+#include "lights/quad_light.hpp"
 #include "objects/triangle_mesh.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -33,8 +34,9 @@ namespace RT_ISICG
 		switch ( sceneNumber )
 		{
 			case 1: _init1(); break;
-			case 2:
-			default: _init2(); break;
+			case 2: _init2(); break;
+			case 3:
+			default: _init3(); break;
 		}
 	}
 
@@ -54,7 +56,7 @@ namespace RT_ISICG
 	{
 		// Add objects.
 		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
-		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
 		_addMaterial( new ColorMaterial( "Blue", BLUE ) );
@@ -66,6 +68,24 @@ namespace RT_ISICG
 
 		// Add Lights
 		_addLight( new PointLight( WHITE, 100, "light1", Vec3f( 1, 10, 1 ) ) );
+	}
+
+	void Scene::_init3()
+	{
+		// Add objects.
+		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new ColorMaterial( "Blue", BLUE ) );
+		_addMaterial( new ColorMaterial( "Red", RED ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Blue", "Sphere1" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new QuadLight( Vec3f( 1, 10, 2 ), Vec3f( -2, 0, 0 ), Vec3f( 0, 0, 2 ), WHITE, 40 ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )

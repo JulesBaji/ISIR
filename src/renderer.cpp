@@ -47,17 +47,26 @@ namespace RT_ISICG
 		progressBar.start( height, 50 );
 		chrono.start();
 
+		#pragma omp parallel for
 		for ( int j = 0; j < height; j++ )
 		{
 			for ( int i = 0; i < width; i++ )
 			{
 				Vec3f meanColor = VEC3F_ZERO;
-				for (int k = 0; k < _nbPixelSamples; k++)
+
+				float i_normalized = ( i + 0.5f ) / (float)( width );
+				float j_normalized = ( j + 0.5f ) / (float)( height );
+
+				Ray ray = p_camera->generateRay( i_normalized, j_normalized );
+				meanColor += _integrator->Li( p_scene, ray, 0.f, 1000.f );
+
+				for (int k = 1; k < _nbPixelSamples; k++)
 				{
-					float i_normalized = ( i + glm::linearRand( 0.f, 1.0f ) ) / (float)( width - 1 );
-					float j_normalized = ( j + glm::linearRand( 0.f, 1.0f ) ) / (float)( height - 1 );
+					i_normalized = ( i + glm::linearRand( 0.f, 1.0f ) ) / (float)( width );
+					j_normalized = ( j + glm::linearRand( 0.f, 1.0f ) ) / (float)( height );
+							
 					Ray	  ray		   = p_camera->generateRay( i_normalized, j_normalized );
-					meanColor += _integrator->Li( p_scene, ray, 0.f, 100.f );
+					meanColor += _integrator->Li( p_scene, ray, 0.f, 1000.f );
 				}			
 				meanColor /= _nbPixelSamples;
 				p_texture.setPixel( i, j, glm::clamp(meanColor, 0.f, 1.f) );

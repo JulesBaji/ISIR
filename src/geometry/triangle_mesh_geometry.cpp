@@ -21,8 +21,25 @@ namespace RT_ISICG
 		const Vec3f & v1 = _refMesh->_vertices[ _v1 ];
 		const Vec3f & v2 = _refMesh->_vertices[ _v2 ];
 
-		/// TODO
-		return false;
+		float epsilon = 0.000001;
+		Vec3f edge1 = v1 - v0, edge2 = v2 - v0;
+		Vec3f pvec = glm::cross( d, edge2 );
+		float det  = glm::dot( edge1, pvec );
+		// J'ai fait que le code avec culling
+		if ( det < epsilon ) return false;
+		Vec3f tvec = o - v0;
+		float u	   = glm::dot( tvec, pvec );
+		if ( u < 0 || u > det ) return false;
+		Vec3f qvec = glm::cross( tvec, edge1 );
+		float v	   = glm::dot( d, qvec );
+		if ( v < 0 || u + v > det ) return false;
+		float t = glm::dot( edge2, qvec );
+		float inv_det = 1.f / det;
+		t *= inv_det;
+		u *= inv_det;
+		v *= inv_det;
+		//fin avec culling
+		return true;
 	}
 
 } // namespace RT_ISICG

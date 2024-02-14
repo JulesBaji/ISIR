@@ -31,6 +31,20 @@ namespace RT_ISICG
 				shadowRay.offset( hitRecord._normal );
 				if ( !p_scene.intersectAny( shadowRay, p_tMin, ls._distance ) )
 					li += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
+
+				if (bl->getIsSurface() == true)
+				{
+					for (int i = 0; i < _nbLightSamples; i++)
+					{
+						LightSample ls		  = bl->sample( hitRecord._point );
+						float		cosTheta  = glm::max( glm::dot( hitRecord._normal, ls._direction ), 0.f );
+						Ray			shadowRay = Ray( hitRecord._point, ls._direction );
+						shadowRay.offset( hitRecord._normal );
+						if ( !p_scene.intersectAny( shadowRay, p_tMin, ls._distance ) )
+							li += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
+					}	
+					li /= (float)_nbLightSamples;
+				}
 			}
 			return li;
 	}
