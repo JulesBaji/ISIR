@@ -9,7 +9,6 @@ namespace RT_ISICG
 		Vec3f radiance	= _color * _power / (distance*distance);
 		float pdf		= 1;
 		 		
-		return LightSample( direction, distance, radiance, pdf );
-		
+		return LightSample( direction, distance, radiance, pdf );		
 	}
 } // namespace RT_ISICG

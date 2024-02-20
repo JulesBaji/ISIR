@@ -18,9 +18,11 @@ namespace RT_ISICG
 							  const unsigned int p_v2,
 							  MeshTriangle *	 p_refMesh );
 
-		bool intersect( const Ray & p_ray, float & p_t ) const;
+		bool intersect( const Ray & p_ray, float & p_t, Vec2f & uv ) const;
 
-		inline const Vec3f & getFaceNormal() const { return _faceNormal; }
+		//inline const Vec3f & getFaceNormal() const { return _faceNormal; }
+
+		const Vec3f getFaceNormal( Vec2f & uv ) const;
 
 	  private:
 		MeshTriangle * _refMesh;
