@@ -24,7 +24,7 @@ namespace RT_ISICG
 							   const HitRecord &   hitRecord,
 							   const LightList &   light_list ) const;
 
-		int _nbLightSamples = 16;
+		int _nbLightSamples = 2;
 	};
 
 } // namespace RT_ISICG
