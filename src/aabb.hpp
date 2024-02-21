@@ -21,7 +21,8 @@ namespace RT_ISICG
 		// Extends the AABB with a point
 		inline void extend( const Vec3f & p_point )
 		{
-			/// TODO
+			_min = glm::min( p_point, _min );
+			_max = glm::max( p_point, _max );
 		}
 		// Extends the AABB with another AABB
 		inline void extend( const AABB & p_aabb )

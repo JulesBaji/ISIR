@@ -10,10 +10,16 @@ namespace RT_ISICG
 	  public:
 		Ray() = delete;
 		// p_direction must be normalized
-		Ray( const Vec3f & p_origin, const Vec3f & p_direction ) : _origin( p_origin ), _direction( p_direction ) {}
+		Ray( const Vec3f & p_origin, const Vec3f & p_direction ) : _origin( p_origin ), _direction( p_direction )
+		{
+			if ( _direction.x != 0 ) _invDirection.x = 1.f / _direction.x;			
+			if ( _direction.y != 0 ) _invDirection.y = 1.f / _direction.y;					
+			if ( _direction.z != 0 ) _invDirection.z = 1.f / _direction.z;	
+		}
 
 		inline const Vec3f & getOrigin() const { return _origin; }
 		inline const Vec3f & getDirection() const { return _direction; }
+		inline const Vec3f & getInvDirection() const { return _invDirection; }
 
 		// Return the point along _direction at distance 'p_t'
 		inline Vec3f pointAtT( const float p_t ) const { return _origin + _direction * p_t; }
@@ -27,6 +33,7 @@ namespace RT_ISICG
 	  private:
 		Vec3f _origin	 = VEC3F_ZERO;
 		Vec3f _direction = VEC3F_ZERO;
+		Vec3f _invDirection = VEC3F_ZERO;
 	};
 } // namespace RT_ISICG
 
