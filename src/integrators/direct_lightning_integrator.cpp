@@ -25,6 +25,7 @@ namespace RT_ISICG
 			Vec3f li = VEC3F_ZERO;
 			for ( BaseLight * bl : light_list )
 			{
+				Vec3f liTemp = VEC3F_ZERO;
 				if (bl->getIsSurface() == true)
 				{
 					for (int i = 0; i < _nbLightSamples; i++)
@@ -34,9 +35,10 @@ namespace RT_ISICG
 						Ray			shadowRay = Ray( hitRecord._point, ls._direction );
 						shadowRay.offset( hitRecord._normal );
 						if ( !p_scene.intersectAny( shadowRay, p_tMin, ls._distance ) )
-							li += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
+							liTemp += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
 					}	
-					li /= (float)_nbLightSamples;
+					liTemp /= (float)_nbLightSamples;
+					li += liTemp;
 				}
 				else
 				{
