@@ -20,7 +20,9 @@ namespace RT_ISICG
 
 		bool intersect( const Ray & p_ray, float & p_t, Vec2f & uv ) const;
 
-		//inline const Vec3f & getFaceNormal() const { return _faceNormal; }
+		inline const Vec3f & getFaceNormal() const { return _faceNormal; }
+
+		inline const AABB & getAABB() const { return _aabb; }
 
 		const Vec3f getFaceNormal( Vec2f & uv ) const;
 
@@ -36,6 +38,7 @@ namespace RT_ISICG
 		};
 
 		Vec3f _faceNormal;
+		AABB  _aabb;
 	};
 } // namespace RT_ISICG
 

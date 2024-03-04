@@ -1,6 +1,8 @@
 #include "bvh.hpp"
 #include "geometry/triangle_mesh_geometry.hpp"
 #include "utils/chrono.hpp"
+#include <functional>
+#include <algorithm>
 
 namespace RT_ISICG
 {
@@ -16,7 +18,8 @@ namespace RT_ISICG
 		Chrono chr;
 		chr.start();
 
-		/// TODO
+		_root = new BVHNode();
+		_buildRec( _root, 0, p_triangles->size(), 1 );
 
 		chr.stop();
 
@@ -25,14 +28,12 @@ namespace RT_ISICG
 
 	bool BVH::intersect( const Ray & p_ray, const float p_tMin, const float p_tMax, HitRecord & p_hitRecord ) const
 	{
-		/// TODO
-		return false;
+		return _intersectRec( _root, p_ray, p_tMin, p_tMax, p_hitRecord ); 
 	}
 
 	bool BVH::intersectAny( const Ray & p_ray, const float p_tMin, const float p_tMax ) const
 	{
-		/// TODO
-		return false;
+		return _intersectAnyRec( _root, p_ray, p_tMin, p_tMax );
 	}
 
 	void BVH::_buildRec( BVHNode *			p_node,
@@ -40,7 +41,37 @@ namespace RT_ISICG
 						 const unsigned int p_lastTriangleId,
 						 const unsigned int p_depth )
 	{
-		/// TODO
+		//p_node->_aabb = AABB();
+
+		for (int i = p_firstTriangleId; i < p_lastTriangleId; i++)
+			p_node->_aabb.extend( ( *_triangles )[ i ].getAABB() );
+		
+		p_node->_firstTriangleId = p_firstTriangleId;
+		p_node->_lastTriangleId	 = p_lastTriangleId;
+
+		const int axePartition = p_node->_aabb.largestAxis();
+		const float middle		 = p_node->_aabb.centroid()[axePartition];
+
+		// Fonction de tri testant l'AABB de chaque TriangleMeshGeometry, renvoie un booléen
+		std::function<bool( TriangleMeshGeometry )> splitFunction(
+			[ axePartition, middle ]( TriangleMeshGeometry t ) -> bool
+			{ 
+				return t.getAABB().getMax()[ axePartition ] < middle;
+			} );
+
+		// Itérateur de type TriangleMeshGeometry avec fonction de tri
+		std::vector<TriangleMeshGeometry>::iterator it = std::partition( _triangles->begin() + p_firstTriangleId,
+												_triangles->begin() + p_lastTriangleId, 
+												splitFunction );
+
+		// Indice du triangle 
+		const int idPartition = std::distance( _triangles->begin(), it );
+
+		p_node->_left  = new BVHNode();
+		p_node->_right = new BVHNode();
+
+		_buildRec( p_node, p_firstTriangleId, idPartition, p_depth + 1 );
+		_buildRec( p_node, idPartition, p_lastTriangleId, p_depth + 1 );
 	}
 
 	bool BVH::_intersectRec( const BVHNode * p_node,

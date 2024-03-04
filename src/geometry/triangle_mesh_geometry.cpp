@@ -11,6 +11,8 @@ namespace RT_ISICG
 	{
 		_faceNormal = glm::normalize( glm::cross( _refMesh->_vertices[ p_v1 ] - _refMesh->_vertices[ p_v0 ],
 												  _refMesh->_vertices[ p_v2 ] - _refMesh->_vertices[ p_v0 ] ) );
+		_aabb		= AABB(glm::min(_refMesh->_vertices[ p_v0 ], _refMesh->_vertices[ p_v1 ]), glm::max(_refMesh->_vertices[ p_v0 ], _refMesh->_vertices[ p_v1 ]));
+		_aabb.extend( _refMesh->_vertices[ p_v2 ] );
 	}
 
 	bool TriangleMeshGeometry::intersect( const Ray & p_ray, float & p_t, Vec2f & uv ) const
