@@ -19,7 +19,7 @@ namespace RT_ISICG
 		chr.start();
 
 		_root = new BVHNode();
-		_buildRec( _root, 0, p_triangles->size(), 1 );
+		_buildRec( _root, 0, static_cast<unsigned int>(p_triangles->size()), 1 );
 
 		chr.stop();
 
@@ -39,18 +39,20 @@ namespace RT_ISICG
 	void BVH::_buildRec( BVHNode *			p_node,
 						 const unsigned int p_firstTriangleId,
 						 const unsigned int p_lastTriangleId,
-						 const unsigned int p_depth )
+						 const size_t p_depth )
 	{
+		if ( p_lastTriangleId - p_firstTriangleId <= _maxTrianglesPerLeaf || p_depth >= _maxDepth ) return;
+
 		//p_node->_aabb = AABB();
 
-		for (int i = p_firstTriangleId; i < p_lastTriangleId; i++)
+		for ( unsigned int i = p_firstTriangleId; i < p_lastTriangleId; i++ )
 			p_node->_aabb.extend( ( *_triangles )[ i ].getAABB() );
 		
 		p_node->_firstTriangleId = p_firstTriangleId;
 		p_node->_lastTriangleId	 = p_lastTriangleId;
 
-		const int axePartition = p_node->_aabb.largestAxis();
-		const float middle		 = p_node->_aabb.centroid()[axePartition];
+		const unsigned int axePartition = static_cast<unsigned int>(p_node->_aabb.largestAxis());
+		const float middle		= p_node->_aabb.centroid()[ axePartition ];
 
 		// Fonction de tri testant l'AABB de chaque TriangleMeshGeometry, renvoie un booléen
 		std::function<bool( TriangleMeshGeometry )> splitFunction(
@@ -65,7 +67,7 @@ namespace RT_ISICG
 												splitFunction );
 
 		// Indice du triangle 
-		const int idPartition = std::distance( _triangles->begin(), it );
+		const unsigned int idPartition = static_cast<unsigned int>(std::distance( _triangles->begin(), it ));
 
 		p_node->_left  = new BVHNode();
 		p_node->_right = new BVHNode();
@@ -80,8 +82,26 @@ namespace RT_ISICG
 							 const float	 p_tMax,
 							 HitRecord &	 p_hitRecord ) const
 	{
-		/// TODO
-		return false;
+		if ( !p_node->_aabb.intersect( p_ray, p_tMin, p_tMax ) ) return false;
+
+		if (p_node->isLeaf())
+		{ 
+			float p_t;
+			Vec2f uv;
+			for (unsigned int i = p_node->_firstTriangleId; i < p_node->_lastTriangleId; i++)
+			{
+				if ((*_triangles)[i].intersect(p_ray, p_t, uv))
+				{
+					if ( p_t >= p_tMin && p_t <= p_tMax )
+					{
+
+					}
+				}
+			}
+		}
+		// Si ça marche pas vérifier nullptr
+		if ( p_node->_left ) _intersectRec( p_node, p_ray, p_tMin, p_tMax, p_hitRecord );
+		else if ( p_node->_right ) _intersectRec( p_node, p_ray, p_tMin, p_tMax, p_hitRecord );
 	}
 	bool BVH::_intersectAnyRec( const BVHNode * p_node,
 								const Ray &		p_ray,

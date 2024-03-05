@@ -42,9 +42,9 @@ namespace RT_ISICG
 
 	  private:
 		void _buildRec( BVHNode *		   p_node,
-						const unsigned int p_firstTriangleId,
+						const unsigned int p_firstTriangleId, 
 						const unsigned int p_nbTriangles,
-						const unsigned int p_depth );
+						const size_t p_depth );
 
 		bool _intersectRec( const BVHNode * p_node,
 							const Ray &		p_ray,
