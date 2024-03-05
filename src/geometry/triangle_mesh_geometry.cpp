@@ -32,7 +32,7 @@ namespace RT_ISICG
 
 		if ( det > -epsilon && det < epsilon ) return false; // This ray is parallel to this triangle.
 
-		float inv_det = 1.0 / det;
+		float inv_det = 1.f / det;
 		Vec3f s		  = o - v0;
 		float u		  = inv_det * dot( s, ray_cross_e2 );
 
