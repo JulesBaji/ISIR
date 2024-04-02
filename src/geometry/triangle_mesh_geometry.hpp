@@ -26,6 +26,8 @@ namespace RT_ISICG
 
 		const Vec3f getFaceNormal( Vec2f & uv ) const;
 
+		const MeshTriangle getRefMesh() const { return *_refMesh; }
+
 	  private:
 		MeshTriangle * _refMesh;
 		union

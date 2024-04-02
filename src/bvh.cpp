@@ -46,7 +46,7 @@ namespace RT_ISICG
 		//p_node->_aabb = AABB();
 
 		for ( unsigned int i = p_firstTriangleId; i < p_lastTriangleId; i++ )
-			p_node->_aabb.extend( ( *_triangles )[ i ].getAABB() );
+			p_node->_aabb.extend( _triangles->at(i).getAABB() );
 		
 		p_node->_firstTriangleId = p_firstTriangleId;
 		p_node->_lastTriangleId	 = p_lastTriangleId;
@@ -90,25 +90,47 @@ namespace RT_ISICG
 			Vec2f uv;
 			for (unsigned int i = p_node->_firstTriangleId; i < p_node->_lastTriangleId; i++)
 			{
-				if ((*_triangles)[i].intersect(p_ray, p_t, uv))
+				if (_triangles->at(i).intersect(p_ray, p_t, uv))
 				{
-					if ( p_t >= p_tMin && p_t <= p_tMax )
+					if ( p_t >= p_tMin && p_t <= p_tMax && p_hitRecord._object != nullptr && p_t > p_hitRecord._distance)
 					{
-
+						p_hitRecord._point	= p_ray.pointAtT( p_t );
+						p_hitRecord._normal = _triangles->at( i ).getFaceNormal( uv );
+						p_hitRecord.faceNormal( p_ray.getDirection() );
+						p_hitRecord._distance = p_t;
+						p_hitRecord._object	  = _triangles->at( i ).getRefMesh();
 					}
 				}
 			}
+			return p_hitRecord._object != nullptr;
 		}
 		// Si ça marche pas vérifier nullptr
 		if ( p_node->_left ) _intersectRec( p_node, p_ray, p_tMin, p_tMax, p_hitRecord );
-		else if ( p_node->_right ) _intersectRec( p_node, p_ray, p_tMin, p_tMax, p_hitRecord );
+		if ( p_node->_right ) _intersectRec( p_node, p_ray, p_tMin, p_tMax, p_hitRecord );
 	}
 	bool BVH::_intersectAnyRec( const BVHNode * p_node,
 								const Ray &		p_ray,
 								const float		p_tMin,
 								const float		p_tMax ) const
 	{
-		/// TODO
-		return false;
+		if ( !p_node->_aabb.intersect( p_ray, p_tMin, p_tMax ) ) return false;
+
+		if ( p_node->isLeaf() )
+		{
+			float p_t;
+			Vec2f uv;
+			for ( unsigned int i = p_node->_firstTriangleId; i < p_node->_lastTriangleId; i++ )
+			{
+				if ( _triangles->at( i ).intersect( p_ray, p_t, uv ) )
+				{
+					if ( p_t >= p_tMin && p_t <= p_tMax )
+						return true;
+				}
+			}
+			return false;
+		}
+		// Si ça marche pas vérifier nullptr
+		if ( p_node->_left ) _intersectAnyRec( p_node, p_ray, p_tMin, p_tMax );
+		if ( p_node->_right ) _intersectAnyRec( p_node, p_ray, p_tMin, p_tMax );
 	}
 } // namespace RT_ISICG
