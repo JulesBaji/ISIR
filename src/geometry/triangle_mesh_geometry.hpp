@@ -2,6 +2,7 @@
 #define __RT_ISICG_TRIANGLE_GEOMETRY__
 
 #include "base_geometry.hpp"
+#include "aabb.hpp"
 
 namespace RT_ISICG
 {
@@ -24,9 +25,9 @@ namespace RT_ISICG
 
 		inline const AABB & getAABB() const { return _aabb; }
 
-		const Vec3f getFaceNormal( Vec2f & uv ) const;
+		inline const MeshTriangle * getRefMesh() const { return _refMesh; }
 
-		const MeshTriangle getRefMesh() const { return *_refMesh; }
+		const Vec3f getFaceNormal( Vec2f & uv ) const;
 
 	  private:
 		MeshTriangle * _refMesh;
