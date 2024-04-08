@@ -42,8 +42,7 @@ namespace RT_ISICG
 						 const unsigned int p_lastTriangleId,
 						 const size_t p_depth )
 	{
-		//p_node->_aabb = AABB();
-
+		p_node->_aabb = AABB();
 		for ( unsigned int i = p_firstTriangleId; i < p_lastTriangleId; i++ )
 			p_node->_aabb.extend( _triangles->at( i ).getAABB() );
 
@@ -84,7 +83,7 @@ namespace RT_ISICG
 							 HitRecord &	 p_hitRecord ) const
 	{
 		float  tClosest = p_tMax;			 // Hit distance.
-		size_t hitTri	= p_node->_lastTriangleId; // Hit triangle id.
+		size_t hitTri	= _triangles->size(); // Hit triangle id.
 		Vec2f  uvHit;
 		if (p_node->_aabb.intersect(p_ray, p_tMin, p_tMax))
 		{
@@ -104,7 +103,7 @@ namespace RT_ISICG
 						}
 					}
 				}
-				if ( hitTri != p_node->_lastTriangleId ) // Intersection found.
+				if ( hitTri != _triangles->size() ) // Intersection found.
 				{
 					p_hitRecord._point	= p_ray.pointAtT( tClosest );
 					p_hitRecord._normal = _triangles->at( hitTri ).getFaceNormal( uvHit );
@@ -116,14 +115,9 @@ namespace RT_ISICG
 				}
 				return false;
 			}
-			if ( p_node->_left )
-			{ 
-				if ( _intersectRec( p_node->_left, p_ray, p_tMin, p_hitRecord._distance, p_hitRecord ) ) return true;
-			}
-			if ( p_node->_right ) 
-			{ 
-				if ( _intersectRec( p_node->_right, p_ray, p_tMin, p_hitRecord._distance, p_hitRecord ) ) return true;
-			}
+			bool left  = _intersectRec( p_node->_left, p_ray, p_tMin, p_hitRecord._distance, p_hitRecord );
+			bool right = _intersectRec( p_node->_right, p_ray, p_tMin, p_hitRecord._distance, p_hitRecord );
+			return left || right;
 		}
 		return false;
 	}
@@ -142,14 +136,22 @@ namespace RT_ISICG
 				{
 					if ( _triangles->at( i ).intersect( p_ray, p_t, uv ) )
 					{
-						std::cout << "test" << std::endl;
-						if ( p_t >= p_tMin && p_t <= p_tMax ) return true;
+						if ( p_t >= p_tMin && p_t <= p_tMax ) 
+						{ 
+							return true;
+						}
 					}
 				}
 				return false;
 			}
-			if ( p_node->_left ) return _intersectAnyRec( p_node->_left, p_ray, p_tMin, p_tMax );
-			if ( p_node->_right ) return _intersectAnyRec( p_node->_right, p_ray, p_tMin, p_tMax );
+			if ( p_node->_left ) 
+			{ 
+				if ( _intersectAnyRec( p_node->_left, p_ray, p_tMin, p_tMax ) ) return true;
+			}
+			if (p_node->_right)
+			{
+				if ( _intersectAnyRec( p_node->_right, p_ray, p_tMin, p_tMax ) ) return true;
+			}
 		}
 		return false;
 	}
