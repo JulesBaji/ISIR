@@ -11,12 +11,13 @@ namespace RT_ISICG
 		if ( p_scene.intersect( p_ray, p_tMin, p_tMax, hitRecord ) )
 		{		
 			LightList light_list = p_scene.getLights();		
-			return _directLighting( p_scene, p_tMin, p_tMax, hitRecord, light_list );
+			return _directLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, light_list );
 		}
 		else { return _backgroundColor; }
 	}
 
 	Vec3f DirectLightingIntegrator::_directLighting( const Scene &	   p_scene,
+													 const Ray &	   p_ray,
 													 const float						  p_tMin,
 													 const float						  p_tMax,
 													 const HitRecord & hitRecord,
@@ -35,7 +36,7 @@ namespace RT_ISICG
 						Ray			shadowRay = Ray( hitRecord._point, ls._direction );
 						shadowRay.offset( hitRecord._normal );
 						if ( !p_scene.intersectAny( shadowRay, p_tMin, ls._distance ) )
-							liTemp += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
+							liTemp += hitRecord._object->getMaterial()->shade(p_ray, hitRecord, ls) * ls._radiance * cosTheta;
 					}	
 					liTemp /= (float)_nbLightSamples;
 					li += liTemp;
@@ -47,7 +48,7 @@ namespace RT_ISICG
 					Ray			shadowRay = Ray( hitRecord._point, ls._direction );
 					shadowRay.offset( hitRecord._normal );
 					if ( !p_scene.intersectAny( shadowRay, p_tMin, ls._distance ) )
-						li += hitRecord._object->getMaterial()->getFlatColor() * ls._radiance * cosTheta;
+						li += hitRecord._object->getMaterial()->shade( p_ray, hitRecord, ls ) * ls._radiance * cosTheta;
 				}
 			}
 			return li;

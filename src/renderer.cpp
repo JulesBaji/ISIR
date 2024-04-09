@@ -58,7 +58,7 @@ namespace RT_ISICG
 				float j_normalized = ( j + 0.5f ) / (float)( height );
 
 				Ray ray = p_camera->generateRay( i_normalized, j_normalized );
-				meanColor += _integrator->Li( p_scene, ray, 0.f, 1000.f );
+				meanColor += _integrator->Li( p_scene, ray, 0.f, 3000.f );
 
 				for (int k = 1; k < _nbPixelSamples; k++)
 				{
@@ -66,7 +66,7 @@ namespace RT_ISICG
 					j_normalized = ( j + glm::linearRand( 0.f, 1.0f ) ) / (float)( height );
 							
 					Ray	  ray		   = p_camera->generateRay( i_normalized, j_normalized );
-					meanColor += _integrator->Li( p_scene, ray, 0.f, 1000.f );
+					meanColor += _integrator->Li( p_scene, ray, 0.f, 3000.f );
 				}			
 				meanColor /= _nbPixelSamples;
 				p_texture.setPixel( i, j, glm::clamp(meanColor, 0.f, 1.f) );

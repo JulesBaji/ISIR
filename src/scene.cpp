@@ -1,5 +1,7 @@
 #include "scene.hpp"
 #include "materials/color_material.hpp"
+#include "materials/lambert_material.hpp"
+#include "materials/oren_nayar_material.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
@@ -36,8 +38,10 @@ namespace RT_ISICG
 			case 1: _init1(); break;
 			case 2: _init2(); break;
 			case 3: _init3(); break;
-			case 4:
-			default: _init4(); break;
+			case 4: _init4(); break;
+			case 5: _init5(); break;
+			case 6: _init6(); break;
+			default: _init6(); break;
 		}
 	}
 
@@ -105,8 +109,8 @@ namespace RT_ISICG
 		// Add objects .
 		// ================================================================
 		// OBJ.
-		loadFileTriangleMesh( "Bunny", "data/Bunny.obj" );
-		_attachMaterialToObject( " CyanColor ", "Bunny_defaultobject" );
+		loadFileTriangleMesh( "Conference", "data/conference/conference.obj" );
+		_attachMaterialToObject( " CyanColor ", "Conference_defaultobject" );
 		// Pseudo Cornell box made with infinite planes .
 		_addObject( new Plane( " PlaneGround ", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 		_attachMaterialToObject( " GreyColor ", " PlaneGround " );
@@ -124,6 +128,43 @@ namespace RT_ISICG
 		// Add lights .
 		// ================================================================
 		_addLight( new PointLight( WHITE, 100.f, "lightTp4", Vec3f( 0.f, 3.f, -5.f ) ) );
+		// Add Lights
+		_addLight( new QuadLight( Vec3f( 900, 600, -300 ), Vec3f( -800, 0, 0 ), Vec3f( 0, 0, 300 ), WHITE, 20 ) );
+	}
+
+	void Scene::_init5()
+	{
+		// ================================================================
+		// Add materials .
+		// ================================================================
+		// ================================================================
+		// Add objects .
+		// ================================================================
+		// OBJ.
+		loadFileTriangleMesh( "Conference", "data/conference/conference.obj" );
+		// ================================================================
+		// Add lights .
+		// ================================================================
+		//
+		_addLight( new QuadLight( Vec3f( 900, 600, -300 ), Vec3f( -800, 0, 0 ), Vec3f( 0, 0, 300 ), WHITE, 20 ) );
+	}
+
+	void Scene::_init6()
+	{
+		// Add objects.
+		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new MatteMaterial( "Grey", GREY ) );
+		_addMaterial( new MatteMaterial( "Red", RED ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Grey", "Sphere1" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp4", Vec3f( 0.f, 0.f, -2.f ) ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )
@@ -190,8 +231,8 @@ namespace RT_ISICG
 				aiString mtlName;
 				mtl->Get( AI_MATKEY_NAME, mtlName );
 
-				/*_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
-				_attachMaterialToObject( mtlName.C_Str(), meshName );*/
+				_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
+				_attachMaterialToObject( mtlName.C_Str(), meshName );
 			}
 
 			std::cout << "-- [DONE] " << triMesh->getNbTriangles() << " triangles, " << triMesh->getNbVertices()
