@@ -8,14 +8,10 @@ namespace RT_ISICG
 		Vec3f positionAl	= _position + randomFloat() * _u + randomFloat() * _v;
 		Vec3f direction		= glm::normalize( positionAl - p_point );
 		float distance		= glm::distance( positionAl, p_point );
-		float cos			= glm::dot( _n, direction );	
-		Vec3f radiance		= BLACK;
-		float pdf			= FLT_INFINITY;
-		if (cos > 0)
-		{ 
-			float pdf = 1.f / _area * ( distance * distance ) / ( glm::dot( _n, direction ) );
-			radiance  = _color * _power / ( pdf );
-		}
+		float cos			= glm::dot( _n, direction );
+		if ( cos <= 0 ) return LightSample( direction, distance, BLACK, FLT_INFINITY );
+		float pdf			= 1.f / _area * ( distance * distance ) / cos;
+		Vec3f radiance		= _color * _power / ( pdf );
 
 		return LightSample( direction, distance, radiance, pdf );
 	}

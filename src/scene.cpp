@@ -2,6 +2,8 @@
 #include "materials/color_material.hpp"
 #include "materials/lambert_material.hpp"
 #include "materials/oren_nayar_material.hpp"
+#include "materials/plastic_material.hpp"
+#include "materials/plastic_material_blinn_phong.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
@@ -41,7 +43,10 @@ namespace RT_ISICG
 			case 4: _init4(); break;
 			case 5: _init5(); break;
 			case 6: _init6(); break;
-			default: _init6(); break;
+			case 7: _init7(); break;
+			case 8: _init8(); break;
+			case 9: _init9(); break;
+			default: _init9(); break;
 		}
 	}
 
@@ -164,7 +169,55 @@ namespace RT_ISICG
 		_attachMaterialToObject( "Red", "Plane1" );
 
 		// Add Lights
-		_addLight( new PointLight( WHITE, 60.f, "lightTp4", Vec3f( 0.f, 0.f, -2.f ) ) );
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
+	}
+
+	void Scene::_init7()
+	{
+		// Add objects.
+		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new PlasticMaterial( "Grey", GREY, GREY ) );
+		_addMaterial( new PlasticMaterial( "Red", RED, GREY ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Grey", "Sphere1" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
+	}
+
+	void Scene::_init8()
+	{
+		// Add objects.
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -1.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new PlasticMaterial( "Red", BLACK, RED ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 2.f, 4.f ) ) );
+	}
+
+	void Scene::_init9()
+	{
+		// Add objects.
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -1.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new PlasticMaterialBlinnPhong( "Red", BLACK, RED ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 2.f, 4.f ) ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )
