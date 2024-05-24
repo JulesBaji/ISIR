@@ -18,7 +18,7 @@ namespace RT_ISICG
 
 		// Create a perspective camera.
 		PerspectiveCamera camera(
-			Vec3f( 0, 0, 0 ), Vec3f( 0, -50, 100 ), Vec3f( 0, 1, 0 ), 60.f, float( imgWidth ) / imgHeight );
+			Vec3f( 0, 0.3f, -4 ), Vec3f( 0, 0, 1 ), Vec3f( 0, 1, 0 ), 60.f, float( imgWidth ) / imgHeight );
 
 		// Create and setup the renderer.
 		Renderer renderer;

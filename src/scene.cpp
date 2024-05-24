@@ -4,6 +4,7 @@
 #include "materials/oren_nayar_material.hpp"
 #include "materials/plastic_material.hpp"
 #include "materials/plastic_material_blinn_phong.hpp"
+#include "materials/microfacet_material.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
@@ -46,7 +47,9 @@ namespace RT_ISICG
 			case 7: _init7(); break;
 			case 8: _init8(); break;
 			case 9: _init9(); break;
-			default: _init9(); break;
+			case 10: _init10(); break;
+			case 11: _init11(); break;
+			default: _init11(); break;
 		}
 	}
 
@@ -220,6 +223,42 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 2.f, 4.f ) ) );
 	}
 
+	void Scene::_init10()
+	{
+		// Add objects.
+		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
+		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Gold", "Sphere1" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
+	}
+
+	void Scene::_init11()
+	{
+		// Add objects.
+		loadFileTriangleMesh( "Bunny", "data/Bunny.obj" );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
+		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY ) );
+		
+		// Link objects and materials.
+		_attachMaterialToObject( "Gold", "Bunny" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 100.f, "lightTp5", Vec3f( 0.f, 6.f, -3.f ) ) );
+	}
+
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )
 	{
 		std::cout << "Loading: " << p_path << std::endl;
@@ -284,8 +323,10 @@ namespace RT_ISICG
 				aiString mtlName;
 				mtl->Get( AI_MATKEY_NAME, mtlName );
 
-				_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
-				_attachMaterialToObject( mtlName.C_Str(), meshName );
+				// Couleur du Mesh !
+				//_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
+				_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
+				_attachMaterialToObject( "Gold", meshName );
 			}
 
 			std::cout << "-- [DONE] " << triMesh->getNbTriangles() << " triangles, " << triMesh->getNbVertices()

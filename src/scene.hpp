@@ -52,12 +52,14 @@ namespace RT_ISICG
 		void _init7();
 		void _init8();
 		void _init9();
+		void _init10();
+		void _init11();
 
 	  private:
 		ObjectMap	_objectMap;
 		MaterialMap _materialMap;
 		LightList	_lightList;
-		int			sceneNumber = 8;
+		int			sceneNumber = 11;
 	};
 } // namespace RT_ISICG
 
