@@ -8,7 +8,7 @@ namespace RT_ISICG
 	class CookTorranceBRDF
 	{
 	  public:
-		CookTorranceBRDF( const Vec3f & p_ks ) : _ks( p_ks ) {};
+		CookTorranceBRDF( const Vec3f & p_ks, const float p_sigma ) : _ks( p_ks ), _sigma(p_sigma) {};
 
 		// * INV_PIf : could be done in the constructor...
 		inline Vec3f evaluate( const Ray &		   p_ray,
@@ -37,7 +37,7 @@ namespace RT_ISICG
 		inline const float & getG1( float x, float k ) const { return x / (x*(1-k) + k); }
 
 		Vec3f		_ks = WHITE;
-		const float _sigma = 0.3f;
+		const float _sigma;
 	};
 } // namespace RT_ISICG
 

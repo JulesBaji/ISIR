@@ -10,8 +10,8 @@ namespace RT_ISICG
 	class PlasticMaterialBlinnPhong : public BaseMaterial
 	{
 	  public:
-		PlasticMaterialBlinnPhong( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular )
-			: BaseMaterial( p_name ), _lbrdf( p_diffuse ), _bpbrdf( p_specular )
+		PlasticMaterialBlinnPhong( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular, const float p_s )
+			: BaseMaterial( p_name ), _lbrdf( p_diffuse ), _bpbrdf( p_specular, p_s )
 		{
 		}
 
@@ -27,8 +27,8 @@ namespace RT_ISICG
 		inline const Vec3f & getFlatColor() const override { return _lbrdf.getKd(); }
 
 	  protected:
-		BlinnPhongBRDF _bpbrdf = WHITE;
-		LambertBRDF _lbrdf = WHITE;
+		BlinnPhongBRDF _bpbrdf;
+		LambertBRDF _lbrdf;
 	};
 
 } // namespace RT_ISICG

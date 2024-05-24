@@ -8,7 +8,7 @@ namespace RT_ISICG
 	class PhongBRDF
 	{
 	  public:
-		PhongBRDF( const Vec3f & p_ks ) : _ks( p_ks ) {};
+		PhongBRDF( const Vec3f & p_ks, const float p_s ) : _ks( p_ks ), _s(p_s) {};
 
 		// * INV_PIf : could be done in the constructor...
 		inline Vec3f evaluate( const Ray &		   p_ray,
@@ -24,14 +24,14 @@ namespace RT_ISICG
 			if ( cos_theta_i <= 0 ) return BLACK;
 			float cos_alpha = glm::max(0.f, glm::dot( wo, wr ));
 
-			return _ks / cos_theta_i * glm::pow( cos_alpha, s );
+			return _ks / cos_theta_i * glm::pow( cos_alpha, _s );
 		}
 
 		inline const Vec3f & getKs() const { return _ks; }
 
 	  private:
-		Vec3f		_ks = WHITE;
-		const float s = 8.f;
+		Vec3f		_ks;
+		const float _s;
 	};
 } // namespace RT_ISICG
 

@@ -8,15 +8,15 @@ namespace RT_ISICG
 	class OrenNayarBRDF
 	{
 	  public:
-		OrenNayarBRDF( const Vec3f & p_kd ) : _kd( p_kd ) {};
+		OrenNayarBRDF( const Vec3f & p_kd, const float p_sigma ) : _kd( p_kd ), _sigma( p_sigma ) {}
 
 		// * INV_PIf : could be done in the constructor...
 		inline Vec3f evaluate( const Ray &									p_ray,
 							   const HitRecord &							p_hitRecord,
 							   const LightSample &							p_lightSample ) const 
 		{ 
-			const float A = 1.f - 0.5f * (sigma * sigma) / ( sigma * sigma + 0.33f );
-			const float B = 0.45f * ( sigma * sigma ) / ( sigma * sigma + 0.09f );
+			const float A = 1.f - 0.5f * (_sigma * _sigma) / ( _sigma * _sigma + 0.33f );
+			const float B = 0.45f * ( _sigma * _sigma ) / ( _sigma * _sigma + 0.09f );
 
 			Vec3f wi = p_lightSample._direction;
 			Vec3f wo = -p_ray.getDirection();
@@ -39,7 +39,7 @@ namespace RT_ISICG
 
 	  private:
 		Vec3f _kd = WHITE;
-		const float sigma = 0.6;
+		const float _sigma;
 	};
 } // namespace RT_ISICG
 

@@ -1,6 +1,7 @@
 #include "renderer.hpp"
 #include "integrators/ray_cast_integrator.hpp"
-#include "integrators/direct_lightning_integrator.hpp"
+#include "integrators/direct_lighting_integrator.hpp"
+#include "integrators/whitted_integrator.hpp"
 #include "utils/console_progress_bar.hpp"
 #include "utils/random.hpp"
 #include <glm/gtc/random.hpp>
@@ -19,11 +20,12 @@ namespace RT_ISICG
 			_integrator = new RayCastIntegrator(); 
 			break;
 		case IntegratorType::DIRECT_LIGHTING:
-		default:
-		{
 			_integrator = new DirectLightingIntegrator();
 			break;
-		}
+		case IntegratorType::WHITTED_LIGHTING:
+		default:
+			_integrator = new WhittedIntegrator();
+			break;
 		}
 	}
 

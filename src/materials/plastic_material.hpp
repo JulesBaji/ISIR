@@ -10,8 +10,8 @@ namespace RT_ISICG
 	class PlasticMaterial : public BaseMaterial
 	{
 	  public:
-		PlasticMaterial( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular )
-			: BaseMaterial( p_name ), _lbrdf( p_diffuse ), _pbrdf( p_specular )
+		PlasticMaterial( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular, const float p_s )
+			: BaseMaterial( p_name ), _lbrdf( p_diffuse ), _pbrdf( p_specular, p_s )
 		{
 		}
 
@@ -27,8 +27,8 @@ namespace RT_ISICG
 		inline const Vec3f & getFlatColor() const override { return _lbrdf.getKd(); }
 
 	  protected:
-		PhongBRDF	_pbrdf = WHITE;
-		LambertBRDF _lbrdf = WHITE;
+		PhongBRDF	_pbrdf;
+		LambertBRDF _lbrdf;
 	};
 
 } // namespace RT_ISICG

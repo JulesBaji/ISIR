@@ -10,8 +10,8 @@ namespace RT_ISICG
 	class MicrofacetMaterial : public BaseMaterial
 	{
 	  public:
-		MicrofacetMaterial( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular )
-			: BaseMaterial( p_name ), _onbrdf( p_diffuse ), _ckbrdf( p_specular )
+		MicrofacetMaterial( const std::string & p_name, const Vec3f & p_diffuse, const Vec3f & p_specular, const float p_sigma, const float p_metalness )
+			: BaseMaterial( p_name ), _onbrdf( p_diffuse, p_sigma ), _ckbrdf( p_specular, p_sigma ), _metalness(p_metalness)
 		{
 		}
 
@@ -28,9 +28,9 @@ namespace RT_ISICG
 		inline const Vec3f & getFlatColor() const override { return _ckbrdf.getKs(); }
 
 	  protected:
-		CookTorranceBRDF _ckbrdf	 = WHITE;
-		OrenNayarBRDF	 _onbrdf = WHITE;
-		const float		 _metalness = 0.5f;
+		CookTorranceBRDF _ckbrdf;
+		OrenNayarBRDF	 _onbrdf;
+		const float		 _metalness;
 	};
 
 } // namespace RT_ISICG

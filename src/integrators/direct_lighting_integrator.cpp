@@ -1,4 +1,4 @@
-#include "direct_lightning_integrator.hpp"
+#include "direct_lighting_integrator.hpp"
 
 namespace RT_ISICG
 {
@@ -9,9 +9,8 @@ namespace RT_ISICG
 	{
 		HitRecord hitRecord;
 		if ( p_scene.intersect( p_ray, p_tMin, p_tMax, hitRecord ) )
-		{		
-			LightList light_list = p_scene.getLights();		
-			return _directLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, light_list );
+		{			
+			return _directLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord );
 		}
 		else { return _backgroundColor; }
 	}
@@ -20,9 +19,9 @@ namespace RT_ISICG
 													 const Ray &	   p_ray,
 													 const float						  p_tMin,
 													 const float						  p_tMax,
-													 const HitRecord & hitRecord,
-													 const LightList & light_list ) const
+													 const HitRecord & hitRecord ) const
 	{
+			LightList light_list = p_scene.getLights();	
 			Vec3f li = VEC3F_ZERO;
 			for ( BaseLight * bl : light_list )
 			{

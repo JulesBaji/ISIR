@@ -5,6 +5,7 @@
 #include "materials/plastic_material.hpp"
 #include "materials/plastic_material_blinn_phong.hpp"
 #include "materials/microfacet_material.hpp"
+#include "materials/mirror_material.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
@@ -49,7 +50,8 @@ namespace RT_ISICG
 			case 9: _init9(); break;
 			case 10: _init10(); break;
 			case 11: _init11(); break;
-			default: _init11(); break;
+			case 12: _init12(); break;
+			default: _init12(); break;
 		}
 	}
 
@@ -164,8 +166,8 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new MatteMaterial( "Grey", GREY ) );
-		_addMaterial( new MatteMaterial( "Red", RED ) );
+		_addMaterial( new MatteMaterial( "Grey", GREY, 0.6f ) );
+		_addMaterial( new MatteMaterial( "Red", RED, 0.6f ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Grey", "Sphere1" );
@@ -182,8 +184,8 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new PlasticMaterial( "Grey", GREY, GREY ) );
-		_addMaterial( new PlasticMaterial( "Red", RED, GREY ) );
+		_addMaterial( new PlasticMaterial( "Grey", GREY, GREY, 8.f ) );
+		_addMaterial( new PlasticMaterial( "Red", RED, GREY, 8.f ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Grey", "Sphere1" );
@@ -199,7 +201,7 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -1.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new PlasticMaterial( "Red", BLACK, RED ) );
+		_addMaterial( new PlasticMaterial( "Red", BLACK, RED, 8.f ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Red", "Plane1" );
@@ -214,7 +216,7 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -1.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new PlasticMaterialBlinnPhong( "Red", BLACK, RED ) );
+		_addMaterial( new PlasticMaterialBlinnPhong( "Red", BLACK, RED, 8.f ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Red", "Plane1" );
@@ -230,8 +232,8 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
-		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY ) );
+		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 0.5f ) );
+		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY, 0.6f, 0.5f ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Gold", "Sphere1" );
@@ -248,8 +250,8 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
-		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY ) );
+		_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 1.f ) );
+		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY, 0.6f, 0.5f ) );
 		
 		// Link objects and materials.
 		_attachMaterialToObject( "Gold", "Bunny" );
@@ -257,6 +259,48 @@ namespace RT_ISICG
 
 		// Add Lights
 		_addLight( new PointLight( WHITE, 100.f, "lightTp5", Vec3f( 0.f, 6.f, -3.f ) ) );
+	}
+
+	void Scene::_init12()
+	{
+		// ================================================================
+		// Add materials.
+		// ================================================================
+		_addMaterial( new MatteMaterial( "WhiteMatte", WHITE, 0.6f ) );
+		_addMaterial( new MatteMaterial( "RedMatte", RED, 0.6f ) );
+		_addMaterial( new MatteMaterial( "GreenMatte", GREEN, 0.6f ) );
+		_addMaterial( new MatteMaterial( "BlueMatte", BLUE, 0.6f ) );
+		_addMaterial( new MatteMaterial( "GreyMatte", GREY, 0.6f ) );
+		_addMaterial( new MatteMaterial( "MagentaMatte", MAGENTA, 0.6f ) );
+		_addMaterial( new MirrorMaterial( "Mirror") );
+
+		// ================================================================
+		// Add objects.
+		// ================================================================s
+		// Spheres.
+		_addObject( new Sphere( "Sphere1", Vec3f( -2.f, 0.f, 3.f ), 1.5f ) );
+		_attachMaterialToObject( "Mirror", "Sphere1" );
+		_addObject( new Sphere( "Sphere2", Vec3f( 2.f, 0.f, 3.f ), 1.5f ) );
+		_attachMaterialToObject( "Mirror", "Sphere2" );
+
+		// Pseudo Cornell box made with infinite planes.
+		_addObject( new Plane( "PlaneGround", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+		_attachMaterialToObject( "GreyMatte", "PlaneGround" );
+		_addObject( new Plane( "PlaneLeft", Vec3f( 5.f, 0.f, 0.f ), Vec3f( -1.f, 0.f, 0.f ) ) );
+		_attachMaterialToObject( "RedMatte", "PlaneLeft" );
+		_addObject( new Plane( "PlaneCeiling", Vec3f( 0.f, 7.f, 0.f ), Vec3f( 0.f, -1.f, 0.f ) ) );
+		_attachMaterialToObject( "GreenMatte", "PlaneCeiling" );
+		_addObject( new Plane( "PlaneRight", Vec3f( -5.f, 0.f, 0.f ), Vec3f( 1.f, 0.f, 0.f ) ) );
+		_attachMaterialToObject( "BlueMatte", "PlaneRight" );
+		_addObject( new Plane( "PlaneFront", Vec3f( 0.f, 0.f, 10.f ), Vec3f( 0.f, 0.f, -1.f ) ) );
+		_attachMaterialToObject( "Mirror", "PlaneFront" );
+
+		// ================================================================
+		// Add lights.
+		// ================================================================
+		_addLight( new PointLight( WHITE, 100.f, "lightTP6", Vec3f( 0.f, 5.f, 0.f ) ) );
+		 //_addLight(new QuadLight(Vec3f(1.f, 5.f, -2.f), Vec3f(-2.f, 0.f, 0.f),
+			//Vec3f(0.f, 1.f, 2.f), WHITE, 40.f));
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )
@@ -323,9 +367,10 @@ namespace RT_ISICG
 				aiString mtlName;
 				mtl->Get( AI_MATKEY_NAME, mtlName );
 
+
 				// Couleur du Mesh !
 				//_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
-				_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ) ) );
+				_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 1.f ) );
 				_attachMaterialToObject( "Gold", meshName );
 			}
 
