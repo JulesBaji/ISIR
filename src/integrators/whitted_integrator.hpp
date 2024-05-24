@@ -21,8 +21,9 @@ namespace RT_ISICG
 							   const Ray &		 p_ray,
 							   const float		 p_tMin,
 							   const float		 p_tMax,
-							   HitRecord & hitRecord,
-							   const int &		  p_nbBounces ) const;
+							   HitRecord  hitRecord,
+							   const int 	  p_nbBounces,
+							   const bool p_inMaterial ) const;
 
 		const int _nbLightSamples = 1;
 		const int _nbBounces	  = 5;

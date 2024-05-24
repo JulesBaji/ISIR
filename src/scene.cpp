@@ -6,6 +6,7 @@
 #include "materials/plastic_material_blinn_phong.hpp"
 #include "materials/microfacet_material.hpp"
 #include "materials/mirror_material.hpp"
+#include "materials/transparent_material.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "lights/point_light.hpp"
@@ -273,6 +274,7 @@ namespace RT_ISICG
 		_addMaterial( new MatteMaterial( "GreyMatte", GREY, 0.6f ) );
 		_addMaterial( new MatteMaterial( "MagentaMatte", MAGENTA, 0.6f ) );
 		_addMaterial( new MirrorMaterial( "Mirror") );
+		_addMaterial( new TransparentMaterial( "Transparent", 1.3f ) );
 
 		// ================================================================
 		// Add objects.
@@ -281,7 +283,7 @@ namespace RT_ISICG
 		_addObject( new Sphere( "Sphere1", Vec3f( -2.f, 0.f, 3.f ), 1.5f ) );
 		_attachMaterialToObject( "Mirror", "Sphere1" );
 		_addObject( new Sphere( "Sphere2", Vec3f( 2.f, 0.f, 3.f ), 1.5f ) );
-		_attachMaterialToObject( "Mirror", "Sphere2" );
+		_attachMaterialToObject( "Transparent", "Sphere2" );
 
 		// Pseudo Cornell box made with infinite planes.
 		_addObject( new Plane( "PlaneGround", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
@@ -293,7 +295,7 @@ namespace RT_ISICG
 		_addObject( new Plane( "PlaneRight", Vec3f( -5.f, 0.f, 0.f ), Vec3f( 1.f, 0.f, 0.f ) ) );
 		_attachMaterialToObject( "BlueMatte", "PlaneRight" );
 		_addObject( new Plane( "PlaneFront", Vec3f( 0.f, 0.f, 10.f ), Vec3f( 0.f, 0.f, -1.f ) ) );
-		_attachMaterialToObject( "Mirror", "PlaneFront" );
+		_attachMaterialToObject( "MagentaMatte", "PlaneFront" );
 
 		// ================================================================
 		// Add lights.
