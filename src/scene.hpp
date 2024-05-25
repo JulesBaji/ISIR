@@ -61,7 +61,7 @@ namespace RT_ISICG
 		ObjectMap	_objectMap;
 		MaterialMap _materialMap;
 		LightList	_lightList;
-		int			sceneNumber = 12;
+		int			sceneNumber = 13;
 	};
 } // namespace RT_ISICG
 

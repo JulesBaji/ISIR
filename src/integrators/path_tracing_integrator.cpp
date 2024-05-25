@@ -26,7 +26,6 @@ namespace RT_ISICG
 	{
 		
 		Vec3f directLighting = _whittedLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, p_nbBounces, p_inMaterial );
-		//if ( p_nbBounces == _nbBounces ) return directLighting;
 		Vec3f indirectLighting = _indirectLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, p_nbBounces, p_inMaterial );
 
 		return directLighting + indirectLighting;
@@ -96,7 +95,6 @@ namespace RT_ISICG
 													 const int	  p_nbBounces,
 													 const bool p_inMaterial) const
 	{
-		// hitRecord._object->getMaterial()->getFlatColor() ?
 		if ( p_nbBounces >= _nbBounces ) return BLACK;
 
 		if ( !p_scene.intersect( p_ray, p_tMin, p_tMax, hitRecord ) ) return _backgroundColor;

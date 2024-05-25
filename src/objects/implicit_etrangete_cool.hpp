@@ -20,7 +20,6 @@ namespace RT_ISICG
 		{
 		}
 
-	  private:
 		// Signed Distance Function
 		virtual float _sdf( const Vec3f & p_point ) const override
 		{
@@ -31,10 +30,12 @@ namespace RT_ISICG
 
 			// sampling dependant computations
 			Vec2f q = Vec2f( glm::length( Vec2f( relativePos.x, relativePos.z ) ), relativePos.y );
-			return ( ( _height * q.x < w * q.y ) ? glm::length( q - Vec2f( w, _height ) ) : glm::abs( glm::length( q ) - _radius ) )
+			return ( ( _height * q.x < w * q.y ) ? glm::length( q - Vec2f( w, _height ) )
+												 : glm::abs( glm::length( q ) - _radius ) )
 				   - _thickness;
 		}
 
+	  private:
 		const float _minDistance = 1e-4f;
 		Vec3f		_center;
 		float 		_radius;

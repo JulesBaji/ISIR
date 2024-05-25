@@ -16,9 +16,8 @@ namespace RT_ISICG
 		{
 		}
 
-	  private:
 		// Signed Distance Function
-		virtual float _sdf( const Vec3f & p_point) const override
+		virtual float _sdf( const Vec3f & p_point ) const override
 		{
 			Vec2f q = _height * Vec2f( _cos.x / _cos.y, -1.0 );
 
@@ -33,6 +32,7 @@ namespace RT_ISICG
 			return sqrt( d ) * glm::sign( s );
 		}
 
+	  private:
 		const float _minDistance = 1e-4f;
 		Vec3f		_center;
 		Vec2f		_cos;

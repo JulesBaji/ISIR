@@ -13,6 +13,7 @@
 #include "objects/implicit_cone.hpp"
 #include "objects/implicit_etrangete_cool.hpp"
 #include "objects/implicit_plane.hpp"
+#include "objects/csg.hpp"
 #include "lights/point_light.hpp"
 #include "lights/quad_light.hpp"
 #include "objects/triangle_mesh.hpp"
@@ -315,10 +316,15 @@ namespace RT_ISICG
 		// Add objects.
 		constexpr float	  angle30	= glm::radians( 30.f );
 		Vec2f angleCone1 = glm::vec2( glm::sin( angle30 ), glm::cos( angle30 ) );
-		_addObject( new ImplicitSphere( "Sphere1", Vec3f( -5.f, 8.f, 8.f ), 1.f ) );
-		_addObject( new ImplicitCone( "Cone1", Vec3f( 0.f, 5.f, 5.f ), angleCone1, 5.f ) );
+		ImplicitSphere *   Sphere1		 = new ImplicitSphere( "Sphere1", Vec3f( -5.f, 8.f, 8.f ), 1.f );
+		ImplicitSphere *  Sphere2	 = new ImplicitSphere( "Sphere2", Vec3f( 0.f, 5.f, 5.f ), 1.f );
+		ImplicitCone *	   Cone1		 = new ImplicitCone( "Cone1", Vec3f( -3.f, 5.f, 5.f ), angleCone1, 2.f );
+		ImplicitCone	  *Cone2		 = new ImplicitCone( "Cone1", Vec3f( 0.f, 5.f, 5.f ), angleCone1, 5.f );
+		_addObject( Sphere1 );
+		_addObject( Cone1  );
 		_addObject( new ImplicitEtrangeteCool( "EtrangeteCool1", Vec3f( 5.f, 0.f, 3.f ), 1.5f, 0.5f, 0.05f ) );
 		_addObject( new ImplicitPlane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ), 0.f ) );
+		_addObject( new CSG( "csg1", Cone2, Sphere2, CSG_TYPE::UNION ) );
 
 		// Add materials.
 		_addMaterial(
@@ -327,8 +333,11 @@ namespace RT_ISICG
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Gold", "Sphere1" );
+		_attachMaterialToObject( "Gold", "Sphere2" );
 		_attachMaterialToObject( "Gold", "Cone1" );
+		_attachMaterialToObject( "Gold", "Cone2" );
 		_attachMaterialToObject( "Gold", "EtrangeteCool1" );
+		_attachMaterialToObject( "Gold", "csg1" );
 		_attachMaterialToObject( "Red", "Plane1" );
 
 		// Add Lights

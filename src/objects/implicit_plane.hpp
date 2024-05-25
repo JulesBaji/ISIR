@@ -16,13 +16,13 @@ namespace RT_ISICG
 		{
 		}
 
-	  private:
 		// Signed Distance Function
 		virtual float _sdf( const Vec3f & p_point ) const override
-		{ 
+		{
 			return glm::dot( p_point - _center, _normal ) + _height;
 		}
 
+	  private:
 		const float _minDistance = 1e-4f;
 		Vec3f		_center;
 		Vec3f		_normal;
