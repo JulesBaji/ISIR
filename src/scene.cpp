@@ -10,6 +10,9 @@
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
 #include "objects/implicit_sphere.hpp"
+#include "objects/implicit_cone.hpp"
+#include "objects/implicit_etrangete_cool.hpp"
+#include "objects/implicit_plane.hpp"
 #include "lights/point_light.hpp"
 #include "lights/quad_light.hpp"
 #include "objects/triangle_mesh.hpp"
@@ -310,8 +313,12 @@ namespace RT_ISICG
 	void Scene::_init13()
 	{
 		// Add objects.
-		_addObject( new ImplicitSphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
-		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+		constexpr float	  angle30	= glm::radians( 30.f );
+		Vec2f angleCone1 = glm::vec2( glm::sin( angle30 ), glm::cos( angle30 ) );
+		_addObject( new ImplicitSphere( "Sphere1", Vec3f( -5.f, 8.f, 8.f ), 1.f ) );
+		_addObject( new ImplicitCone( "Cone1", Vec3f( 0.f, 5.f, 5.f ), angleCone1, 5.f ) );
+		_addObject( new ImplicitEtrangeteCool( "EtrangeteCool1", Vec3f( 5.f, 0.f, 3.f ), 1.5f, 0.5f, 0.05f ) );
+		_addObject( new ImplicitPlane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ), 0.f ) );
 
 		// Add materials.
 		_addMaterial(
@@ -320,10 +327,12 @@ namespace RT_ISICG
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Gold", "Sphere1" );
+		_attachMaterialToObject( "Gold", "Cone1" );
+		_attachMaterialToObject( "Gold", "EtrangeteCool1" );
 		_attachMaterialToObject( "Red", "Plane1" );
 
 		// Add Lights
-		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
+		_addLight( new PointLight( WHITE, 300.f, "lightTp5", Vec3f( 0.f, 8.f, 0.f ) ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )

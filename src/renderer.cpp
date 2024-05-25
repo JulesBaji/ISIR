@@ -2,6 +2,7 @@
 #include "integrators/ray_cast_integrator.hpp"
 #include "integrators/direct_lighting_integrator.hpp"
 #include "integrators/whitted_integrator.hpp"
+#include "integrators/path_tracing_integrator.hpp"
 #include "utils/console_progress_bar.hpp"
 #include "utils/random.hpp"
 #include <glm/gtc/random.hpp>
@@ -23,8 +24,11 @@ namespace RT_ISICG
 			_integrator = new DirectLightingIntegrator();
 			break;
 		case IntegratorType::WHITTED_LIGHTING:
-		default:
 			_integrator = new WhittedIntegrator();
+			break;
+		case IntegratorType::PATH_TRACING:
+		default:
+			_integrator = new PathTracingIntegrator();
 			break;
 		}
 	}
@@ -49,7 +53,7 @@ namespace RT_ISICG
 		progressBar.start( height, 50 );
 		chrono.start();
 
-		#pragma omp parallel for collapse(2)
+		#pragma omp parallel for
 		for ( int j = 0; j < height; j++ )
 		{
 			for ( int i = 0; i < width; i++ )

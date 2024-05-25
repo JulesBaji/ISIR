@@ -122,7 +122,7 @@
     <ClCompile Include="src\integrators\whitted_integrator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\implicit_sphere.cpp">
+    <ClCompile Include="src\integrators\path_tracing_integrator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -260,6 +260,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\implicit_sphere.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\implicit_cone.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\implicit_etrangete_cool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\implicit_plane.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrators\path_tracing_integrator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

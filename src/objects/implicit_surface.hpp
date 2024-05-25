@@ -27,10 +27,19 @@ namespace RT_ISICG
 		virtual float _sdf( const Vec3f & p_point ) const = 0;
 
 		// Evaluate normal by computing gradient at 'p_point'
+		// Calcul des différences finies
 		virtual Vec3f _evaluateNormal( const Vec3f & p_point ) const
 		{
-			/// TODO
-			return Vec3f( 1.f );
+			Vec3f gradient = VEC3F_ZERO;
+
+			gradient.x = _sdf( p_point + Vec3f( _minDistance, 0.0f, 0.0f ) )
+						 - _sdf( p_point - Vec3f( _minDistance, 0.0f, 0.0f ) );
+			gradient.y = _sdf( p_point + Vec3f( 0.0f, _minDistance, 0.0f ) )
+						 - _sdf( p_point - Vec3f( 0.0f, _minDistance, 0.0f ) );
+			gradient.z = _sdf( p_point + Vec3f( 0.0f, 0.0f, _minDistance ) )
+						 - _sdf( p_point - Vec3f( 0.0f, 0.0f, _minDistance ) );
+
+			return glm::normalize( gradient );
 		}
 
 	  private:

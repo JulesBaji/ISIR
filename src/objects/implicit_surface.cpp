@@ -10,13 +10,15 @@ namespace RT_ISICG
 		float step	   = p_tMin;
 		Vec3f position = p_ray.getOrigin() + step * p_ray.getDirection();
 		float		distance   = _sdf( position );
+		// max_steps empêche les boucles infinies
+		int max_steps = 0;
 
-		while ( step <= p_tMax )
+		while ( step <= p_tMax && max_steps < 1e4)
 		{
 			position = p_ray.getOrigin() + step * p_ray.getDirection();
 			distance = _sdf( position );
 
-			if (distance <= _minDistance)
+			if (glm::abs(distance) <= _minDistance)
 			{
 				// Intersection found, fill p_hitRecord.
 				p_hitRecord._point	= position;
@@ -28,6 +30,7 @@ namespace RT_ISICG
 				return true;
 			}
 			step += distance;
+			max_steps++;
 		}
 		return false;
 	}
