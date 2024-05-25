@@ -113,10 +113,16 @@
     <ClCompile Include="src\lights\point_light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\integrators\direct_lightning_integrator.cpp">
+    <ClCompile Include="src\lights\quad_light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lights\quad_light.cpp">
+    <ClCompile Include="src\integrators\direct_lighting_integrator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\integrators\whitted_integrator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\implicit_sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -214,9 +220,6 @@
     <ClInclude Include="src\lights\point_light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\integrators\direct_lightning_integrator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\lights\quad_light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -242,6 +245,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\brdfs\cook_torrance_brdf.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrators\direct_lighting_integrator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrators\whitted_integrator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\transparent_material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\materials\mirror_material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\implicit_sphere.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

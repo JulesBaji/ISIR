@@ -9,6 +9,7 @@
 #include "materials/transparent_material.hpp"
 #include "objects/sphere.hpp"
 #include "objects/plane.hpp"
+#include "objects/implicit_sphere.hpp"
 #include "lights/point_light.hpp"
 #include "lights/quad_light.hpp"
 #include "objects/triangle_mesh.hpp"
@@ -52,7 +53,8 @@ namespace RT_ISICG
 			case 10: _init10(); break;
 			case 11: _init11(); break;
 			case 12: _init12(); break;
-			default: _init12(); break;
+			case 13: _init13(); break;
+			default: _init13(); break;
 		}
 	}
 
@@ -303,6 +305,25 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 100.f, "lightTP6", Vec3f( 0.f, 5.f, 0.f ) ) );
 		 //_addLight(new QuadLight(Vec3f(1.f, 5.f, -2.f), Vec3f(-2.f, 0.f, 0.f),
 			//Vec3f(0.f, 1.f, 2.f), WHITE, 40.f));
+	}
+
+	void Scene::_init13()
+	{
+		// Add objects.
+		_addObject( new ImplicitSphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+
+		// Add materials.
+		_addMaterial(
+			new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 0.5f ) );
+		_addMaterial( new MicrofacetMaterial( "Red", RED, GREY, 0.6f, 0.5f ) );
+
+		// Link objects and materials.
+		_attachMaterialToObject( "Gold", "Sphere1" );
+		_attachMaterialToObject( "Red", "Plane1" );
+
+		// Add Lights
+		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )

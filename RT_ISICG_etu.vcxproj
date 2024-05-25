@@ -167,6 +167,7 @@ xcopy /y /d  "$(ProjectDir)lib\zlib1.dll" "$(OutDir)"</Command>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\objects\implicit_surface.cpp" />
     <ClCompile Include="src\objects\plane.cpp" />
+    <ClCompile Include="src\objects\implicit_sphere.cpp" />
     <ClCompile Include="src\objects\sphere.cpp" />
     <ClCompile Include="src\objects\triangle_mesh.cpp" />
     <ClCompile Include="src\renderer.cpp" />
@@ -209,6 +210,7 @@ xcopy /y /d  "$(ProjectDir)lib\zlib1.dll" "$(OutDir)"</Command>
     <ClInclude Include="src\materials\oren_nayar_material.hpp" />
     <ClInclude Include="src\materials\lambert_material.hpp" />
     <ClInclude Include="src\objects\base_object.hpp" />
+    <ClInclude Include="src\objects\implicit_sphere.hpp" />
     <ClInclude Include="src\objects\implicit_surface.hpp" />
     <ClInclude Include="src\objects\plane.hpp" />
     <ClInclude Include="src\objects\sphere.hpp" />
