@@ -18,6 +18,7 @@ namespace RT_ISICG
 			position = p_ray.getOrigin() + step * p_ray.getDirection();
 			distance = _sdf( position );
 
+			// tester sans et avec abs + intersetctAny
 			if (glm::abs(distance) <= _minDistance)
 			{
 				// Intersection found, fill p_hitRecord.

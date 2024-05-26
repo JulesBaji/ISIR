@@ -214,6 +214,7 @@ xcopy /y /d  "$(ProjectDir)lib\zlib1.dll" "$(OutDir)"</Command>
     <ClInclude Include="src\materials\lambert_material.hpp" />
     <ClInclude Include="src\objects\base_object.hpp" />
     <ClInclude Include="src\objects\csg.hpp" />
+    <ClInclude Include="src\objects\implicit_fractal.hpp" />
     <ClInclude Include="src\objects\implicit_plane.hpp" />
     <ClInclude Include="src\objects\implicit_etrangete_cool.hpp" />
     <ClInclude Include="src\objects\implicit_cone.hpp" />

@@ -44,8 +44,8 @@ namespace RT_ISICG
 						  const bool	p_inMaterial) const;
 
 		const int _nbLightSamples = 1;
-		const int _nbBounces	  = 3;
-		const int _nbRays		  = 5;
+		const int _nbBounces	  = 4;
+		const int _nbRays		  = 16;
 	};
 
 } // namespace RT_ISICG

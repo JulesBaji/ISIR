@@ -48,7 +48,8 @@ namespace RT_ISICG
 				Ray reflection_ray = Ray( hitRecord._point, glm::reflect( p_ray.getDirection(), hitRecord._normal ) );
 				reflection_ray.offset( hitRecord._normal );
 
-				return _pathTracing( p_scene, reflection_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, p_inMaterial );
+				return _pathTracing(
+					p_scene, reflection_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, p_inMaterial );
 			}
 			else if ( hitRecord._object->getMaterial()->isTransparent() )
 			{
@@ -75,14 +76,14 @@ namespace RT_ISICG
 				const Vec3f refractionDir  = glm::refract( p_ray.getDirection(), hitRecord._normal, n1 / n2 );
 				Ray			refraction_ray = Ray( hitRecord._point, refractionDir );
 				refraction_ray.offset( -hitRecord._normal );
-				Vec3f refractionColor
-					= _pathTracing( p_scene, refraction_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, !p_inMaterial );
+				Vec3f refractionColor = _pathTracing(
+					p_scene, refraction_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, !p_inMaterial );
 
 				return reflectionColor * kr + refractionColor * ( 1.f - kr );
 			}
 			else
-				return _directLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord );
-			//_indirectLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, p_inMaterial );
+				return _directLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord )
+					+ _indirectLighting( p_scene, p_ray, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, p_inMaterial );
 		}
 		return _backgroundColor;
 	}

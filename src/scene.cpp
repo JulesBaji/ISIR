@@ -13,6 +13,7 @@
 #include "objects/implicit_cone.hpp"
 #include "objects/implicit_etrangete_cool.hpp"
 #include "objects/implicit_plane.hpp"
+#include "objects/implicit_fractal.hpp"
 #include "objects/csg.hpp"
 #include "lights/point_light.hpp"
 #include "lights/quad_light.hpp"
@@ -58,7 +59,8 @@ namespace RT_ISICG
 			case 11: _init11(); break;
 			case 12: _init12(); break;
 			case 13: _init13(); break;
-			default: _init13(); break;
+			case 14:
+			default: _init14(); break;
 		}
 	}
 
@@ -342,6 +344,56 @@ namespace RT_ISICG
 
 		// Add Lights
 		_addLight( new PointLight( WHITE, 300.f, "lightTp5", Vec3f( 0.f, 8.f, 0.f ) ) );
+	}
+
+	void Scene::_init14()
+	{
+		// ================================================================
+		// Add materials.
+		// ================================================================
+		_addMaterial( new MatteMaterial( "WhiteMatte", WHITE, 0.6f ) );
+		_addMaterial( new MatteMaterial( "RedMatte", RED, 0.6f ) );
+		_addMaterial( new MatteMaterial( "GreenMatte", GREEN, 0.6f ) );
+		_addMaterial( new MatteMaterial( "BlueMatte", BLUE, 0.6f ) );
+		_addMaterial( new MatteMaterial( "GreyMatte", GREY, 0.6f ) );
+		_addMaterial( new MatteMaterial( "MagentaMatte", MAGENTA, 0.7f ) );
+		_addMaterial( new MirrorMaterial( "Mirror" ) );
+		_addMaterial( new TransparentMaterial( "Transparent", 1.3f ) );
+		_addMaterial(
+			new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 0.5f ) );
+
+		// ================================================================
+		// Add objects.
+		// ================================================================s
+		// Spheres.
+		_addObject( new Sphere( "Sphere1", Vec3f( -2.f, 0.f, 3.f ), 1.5f ) );
+		_attachMaterialToObject( "Mirror", "Sphere1" );
+		_addObject( new Sphere( "Sphere2", Vec3f( 2.f, 0.f, 3.f ), 1.5f ) );
+		_attachMaterialToObject( "Transparent", "Sphere2" );
+		_addObject( new ImplicitFractal( "fractal1", Vec3f( 0.f, -2.f, 2.f ), .8f ) );
+		_attachMaterialToObject( "WhiteMatte", "fractal1" );
+		Vec2f			 angleCone1 = glm::vec2( glm::sin( glm::radians( 30.f ) ), glm::cos( glm::radians( 30.f ) ) );
+		ImplicitSphere * Sphere2	= new ImplicitSphere( "Sphere2", Vec3f( 0.f, .1f, 2.f ), .2f );
+		ImplicitCone *	 Cone2		= new ImplicitCone( "Cone1", Vec3f( 0.f, .1f, 2.f ), angleCone1, 1.3f );
+		_addObject( new CSG( "chapeauDeClown", Cone2, Sphere2, CSG_TYPE::UNION ) );
+		_attachMaterialToObject( "Mirror", "chapeauDeClown" );
+
+		// Pseudo Cornell box made with infinite planes.
+		_addObject( new Plane( "PlaneGround", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
+		_attachMaterialToObject( "GreyMatte", "PlaneGround" );
+		_addObject( new Plane( "PlaneLeft", Vec3f( 5.f, 0.f, 0.f ), Vec3f( -1.f, 0.f, 0.f ) ) );
+		_attachMaterialToObject( "RedMatte", "PlaneLeft" );
+		_addObject( new Plane( "PlaneCeiling", Vec3f( 0.f, 7.f, 0.f ), Vec3f( 0.f, -1.f, 0.f ) ) );
+		_attachMaterialToObject( "GreenMatte", "PlaneCeiling" );
+		_addObject( new Plane( "PlaneRight", Vec3f( -5.f, 0.f, 0.f ), Vec3f( 1.f, 0.f, 0.f ) ) );
+		_attachMaterialToObject( "BlueMatte", "PlaneRight" );
+		_addObject( new Plane( "PlaneFront", Vec3f( 0.f, 0.f, 10.f ), Vec3f( 0.f, 0.f, -1.f ) ) );
+		_attachMaterialToObject( "MagentaMatte", "PlaneFront" );
+
+		// ================================================================
+		// Add lights.
+		// ================================================================
+		_addLight( new PointLight( WHITE, 100.f, "lightTP6", Vec3f( 0.f, 5.f, 0.f ) ) );
 	}
 
 	void Scene::loadFileTriangleMesh( const std::string & p_name, const std::string & p_path )
