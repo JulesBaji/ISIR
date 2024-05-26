@@ -112,6 +112,7 @@ namespace RT_ISICG
 		_addLight( new QuadLight( Vec3f( 1, 10, 2 ), Vec3f( -2, 0, 0 ), Vec3f( 0, 0, 2 ), WHITE, 40 ) );
 	}
 
+	// Bunny TP4
 	void Scene::_init4()
 	{
 		// ================================================================
@@ -128,8 +129,7 @@ namespace RT_ISICG
 		// Add objects .
 		// ================================================================
 		// OBJ.
-		loadFileTriangleMesh( "Conference", "data/conference/conference.obj" );
-		_attachMaterialToObject( " CyanColor ", "Conference_defaultobject" );
+		loadFileTriangleMesh( "Bunny", "data/Bunny.obj" );
 		// Pseudo Cornell box made with infinite planes .
 		_addObject( new Plane( " PlaneGround ", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 		_attachMaterialToObject( " GreyColor ", " PlaneGround " );
@@ -151,6 +151,7 @@ namespace RT_ISICG
 		_addLight( new QuadLight( Vec3f( 900, 600, -300 ), Vec3f( -800, 0, 0 ), Vec3f( 0, 0, 300 ), WHITE, 20 ) );
 	}
 
+	// Conférence TP4
 	void Scene::_init5()
 	{
 		// ================================================================
@@ -168,6 +169,7 @@ namespace RT_ISICG
 		_addLight( new QuadLight( Vec3f( 900, 600, -300 ), Vec3f( -800, 0, 0 ), Vec3f( 0, 0, 300 ), WHITE, 20 ) );
 	}
 
+	//TP5 LambertMaterial
 	void Scene::_init6()
 	{
 		// Add objects.
@@ -175,8 +177,8 @@ namespace RT_ISICG
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new MatteMaterial( "Grey", GREY, 0.6f ) );
-		_addMaterial( new MatteMaterial( "Red", RED, 0.6f ) );
+		_addMaterial( new LambertMaterial( "Grey", GREY ) );
+		_addMaterial( new LambertMaterial( "Red", RED ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Grey", "Sphere1" );
@@ -186,24 +188,29 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
 	}
 
+	//TP5 Phong et Blinn-Phong
 	void Scene::_init7()
 	{
 		// Add objects.
 		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+		_addObject( new Sphere( "Sphere2", Vec3f( 3.f, 0.f, 3.f ), 1.f ) );
 		_addObject( new Plane( "Plane1", Vec3f( 0.f, -2.f, 3.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 
 		// Add materials.
-		_addMaterial( new PlasticMaterial( "Grey", GREY, GREY, 8.f ) );
+		_addMaterial( new PlasticMaterial( "GreyP", GREY, GREY, 8.f ) );
+		_addMaterial( new PlasticMaterialBlinnPhong( "GreyBP", GREY, GREY, 8.f ) );
 		_addMaterial( new PlasticMaterial( "Red", RED, GREY, 8.f ) );
 
 		// Link objects and materials.
-		_attachMaterialToObject( "Grey", "Sphere1" );
+		_attachMaterialToObject( "GreyP", "Sphere1" );
+		_attachMaterialToObject( "GreyBP", "Sphere2" );
 		_attachMaterialToObject( "Red", "Plane1" );
 
 		// Add Lights
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
 	}
 
+	//TP5 Plan Phong
 	void Scene::_init8()
 	{
 		// Add objects.
@@ -219,6 +226,7 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 2.f, 4.f ) ) );
 	}
 
+	//Plan Blinn-Phong
 	void Scene::_init9()
 	{
 		// Add objects.
@@ -234,6 +242,7 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 2.f, 4.f ) ) );
 	}
 
+	//TP5 Golden Sphere
 	void Scene::_init10()
 	{
 		// Add objects.
@@ -252,6 +261,7 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 60.f, "lightTp5", Vec3f( 0.f, 0.f, -2.f ) ) );
 	}
 
+	//TP5 Golden Bunny
 	void Scene::_init11()
 	{
 		// Add objects.
@@ -270,6 +280,7 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 100.f, "lightTp5", Vec3f( 0.f, 6.f, -3.f ) ) );
 	}
 
+	//TP6 Whitted Lighting
 	void Scene::_init12()
 	{
 		// ================================================================
@@ -313,6 +324,7 @@ namespace RT_ISICG
 			//Vec3f(0.f, 1.f, 2.f), WHITE, 40.f));
 	}
 
+	//TP7 Implicites et CSG
 	void Scene::_init13()
 	{
 		// Add objects.
@@ -346,6 +358,7 @@ namespace RT_ISICG
 		_addLight( new PointLight( WHITE, 300.f, "lightTp5", Vec3f( 0.f, 8.f, 0.f ) ) );
 	}
 
+	//Projet : path tracing, CSG et fractale
 	void Scene::_init14()
 	{
 		// ================================================================
@@ -463,8 +476,11 @@ namespace RT_ISICG
 
 				// Couleur du Mesh !
 				//_addMaterial( new ColorMaterial( std::string( mtlName.C_Str() ), kd ) );
-				_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 1.f ) );
-				_attachMaterialToObject( "Gold", meshName );
+				//_attachMaterialToObject( std::string( mtlName.C_Str() ), meshName );
+				//_addMaterial( new MicrofacetMaterial( "Gold", Vec3f( 1.f, 0.85f, 0.57f ), Vec3f( 1.f, 0.85f, 0.57f ), 0.6f, 1.f ) );
+				//_attachMaterialToObject( "Gold", meshName );
+				/*_addMaterial( new ColorMaterial( " CyanColor ", CYAN ) );
+				_attachMaterialToObject( " CyanColor ", meshName );*/
 			}
 
 			std::cout << "-- [DONE] " << triMesh->getNbTriangles() << " triangles, " << triMesh->getNbVertices()

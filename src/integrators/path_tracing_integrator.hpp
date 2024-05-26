@@ -45,7 +45,7 @@ namespace RT_ISICG
 
 		const int _nbLightSamples = 1;
 		const int _nbBounces	  = 4;
-		const int _nbRays		  = 16;
+		const int _nbRays		  = 1;
 	};
 
 } // namespace RT_ISICG

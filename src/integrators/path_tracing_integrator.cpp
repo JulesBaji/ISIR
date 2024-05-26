@@ -105,18 +105,12 @@ namespace RT_ISICG
 		{
 			Vec3f indirectLighting = VEC3F_ZERO;
 
-			// Lancer un rayon aléatoire dans une direction aléatoire
 			Vec3f randomDirection = sampleHemisphere( hitRecord._normal );
 			Ray	  randomRay( hitRecord._point, randomDirection );
 
-			// Calculer la couleur de la lumière indirecte en échantillonnant récursivement le chemin du rayon aléatoire
 			indirectLighting
 				= _pathTracing( p_scene, randomRay, p_tMin, p_tMax, hitRecord, p_nbBounces + 1, p_inMaterial );
 
-			//return indirectLighting;
-
-			// Retourner la couleur de l'éclairage indirect, pondérée par la probabilité d'échantillonnage de la
-			// direction
 			SumIndirectLighting += indirectLighting;
 		}	
 		Vec3f MeanIndirectLighting
@@ -129,27 +123,21 @@ namespace RT_ISICG
 	// Fonction pour générer une direction aléatoire dans le demi-hémisphère supérieur
 	Vec3f PathTracingIntegrator::sampleHemisphere( const Vec3f & normal ) const
 	{
-		// Générateur de nombres aléatoires
 		static std::default_random_engine			 generator;
 		static std::uniform_real_distribution<float> distribution( 0.0f, 1.0f );
 
-		// Générer deux nombres aléatoires dans l'intervalle [0, 1]
 		float u = distribution( generator );
 		float v = distribution( generator );
 
-		// Calculer les angles polaires et azimutaux
 		float theta = acos( sqrt( 1.0f - u ) );
 		float phi	= 2 * PIf * v;
 
-		// Convertir en coordonnées cartésiennes
 		float x = sin( theta ) * cos( phi );
 		float y = sin( theta ) * sin( phi );
 		float z = cos( theta );
 
-		// Appliquer une transformation pour aligner avec la normale de la surface
 		Vec3f tangent, bitangent;
 
-		// Éviter les vecteurs dégénérés
 		if ( fabs( normal.x ) > fabs( normal.y ) )
 		{
 			tangent = glm::normalize( glm::cross( Vec3f( 0.0f, 1.0f, 0.0f ), normal ) );
@@ -158,7 +146,6 @@ namespace RT_ISICG
 
 		bitangent = glm::normalize( glm::cross( normal, tangent ) );
 
-		// Matrice TBN pour la transformation
 		Mat3f TBN( tangent, bitangent, normal );
 		return glm::normalize( TBN * Vec3f( x, y, z ) );
 	}
