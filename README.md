@@ -4,6 +4,10 @@ Moteur de rendu par lancer de rayons en C++, réalisé pendant les TP de synthè
 
 Le projet part d'un squelette fourni par l'université (fenêtre, caméra, chargement des maillages, écriture des images). Le reste est mon travail.
 
+![Scène finale : fractale implicite (éponge de Menger), cône et sphère en union CSG, sphère de verre et sphère miroir dans une pseudo Cornell box](docs/rendu.jpg)
+
+*Scène finale (`_init14`), 1280×720, 256 échantillons par pixel, intégrateur de path tracing.*
+
 ## Ce qui est implémenté
 
 - **Intégrateurs** : lancer de rayons simple, éclairage direct, Whitted (réflexions et réfractions), path tracing avec échantillonnage de l'hémisphère pondéré par le cosinus.
